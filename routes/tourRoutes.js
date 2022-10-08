@@ -1,12 +1,11 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController');
-
 const tourRouter = express.Router();
 
-// tourRouter.param('id', (req, res, next, val) => {
-//   console.log(`tour id id : ${val}`);
-//   next();
-// });
+tourRouter.param('id', (req, res, next, val) => {
+  console.log(`tour id id : ${val}`);
+  next();
+});
 
 tourRouter
   .route('/')
@@ -16,6 +15,7 @@ tourRouter
 tourRouter
   .route('/:id')
   .get(tourController.getTour)
-  .delete(tourController.deleteTour);
+  .delete(tourController.deleteTour)
+  .patch(tourController.updateTour);
 
 module.exports = tourRouter;
