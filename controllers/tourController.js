@@ -1,5 +1,4 @@
-const express = require('express');
-const Tour = require('./../models/tourModel');
+const Tour = require('../models/tourModel');
 
 exports.getTour = async (req, res) => {
   try {
@@ -16,21 +15,6 @@ exports.getTour = async (req, res) => {
       message: err,
     });
   }
-
-  // const id = req.params.id * 1;
-  // const tour = tours.find((el) => el.id === id);
-  // if (!tour) {
-  //   res.json({
-  //     status: 'foul',
-  //     tour: 'not found',
-  //   });
-  // }
-  // res.status(200).json({
-  //   status: 'sucsess',
-  //   data: {
-  //     tour,
-  //   },
-  // });
 };
 
 exports.getAllTours = async (req, res) => {

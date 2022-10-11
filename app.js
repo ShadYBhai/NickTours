@@ -8,9 +8,19 @@ const tourRouter = require('./routes/tourRoutes');
 
 const userRouter = require('./routes/userRoutes');
 
+// eslint-disable-next-line no-console
 console.log(process.env.NODE_ENV);
 
+// eslint-disable-next-line import/order
+// const fs = require('fs');
+
 //1.MIDDLEWARES
+// app.get('/tourData', (req, res) => {
+//   const allTours = fs.readFileSync(
+//     `${__dirname}/dev-data/data/tours-simple.json`
+//   );
+//   res.send(allTours);
+// });
 
 app.use(express.json());
 
