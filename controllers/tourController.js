@@ -27,12 +27,20 @@ exports.getAllTours = async (req, res) => {
     // eslint-disable-next-line no-console
     console.log(req.query, queryObj);
 
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    // eslint-disable-next-line no-console
+    console.log(JSON.parse(queryStr));
+
     // const tours = await Tour.find({
     //   difficulty: 'easy',
     //   duration: 5,
     // });
 
     const tours = await Tour.find(queryObj);
+
+    // {difficulty:'easy', duraation:{$gte:5}}
 
     res.status(200).json({
       status: 'sucess',
