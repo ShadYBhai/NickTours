@@ -2,11 +2,12 @@ const Tour = require('../models/tourModel');
 
 exports.getTour = async (req, res) => {
   try {
-    const tour = await Tour.findById(req.params.id);
+    const tours = await Tour.findById(req.params.id);
+
     res.json({
       status: 'sucsess',
       data: {
-        tour,
+        tours,
       },
     });
   } catch (err) {
@@ -19,7 +20,20 @@ exports.getTour = async (req, res) => {
 
 exports.getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+    // eslint-disable-next-line no-console
+    console.log(req.query, queryObj);
+
+    // const tours = await Tour.find({
+    //   difficulty: 'easy',
+    //   duration: 5,
+    // });
+
+    const tours = await Tour.find(queryObj);
+
     res.status(200).json({
       status: 'sucess',
       results: tours.length,
