@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+
 const fs = require('fs');
+
 const dotenv = require('dotenv');
 
 const Tour = require('../../models/tourModel');
@@ -11,6 +13,7 @@ const DB = process.env.DATABASE.replace(
 
   process.env.DATABASE_PASSWORD
 );
+
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -59,4 +62,5 @@ if (process.argv[2] === '--import') {
   deleteAllDataFromcollections();
 }
 
+// eslint-disable-next-line no-use-before-define
 console.log(process.argv);

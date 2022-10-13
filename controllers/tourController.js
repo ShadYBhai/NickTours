@@ -38,7 +38,7 @@ exports.getAllTours = async (req, res) => {
     //   duration: 5,
     // });
 
-    const tours = await Tour.find(queryObj);
+    const tours = await Tour.find(JSON.parse(queryStr));
 
     // {difficulty:'easy', duraation:{$gte:5}}
 
