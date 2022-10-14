@@ -33,12 +33,18 @@ exports.getAllTours = async (req, res) => {
     // eslint-disable-next-line no-console
     console.log(JSON.parse(queryStr));
 
+    let query = Tour.find(JSON.parse(queryStr));
+
     // const tours = await Tour.find({
     //   difficulty: 'easy',
     //   duration: 5,
     // });
 
-    const tours = await Tour.find(JSON.parse(queryStr));
+    if (req.query.sort) {
+      query = query.sort(req.query.sort);
+    }
+
+    const tours = await query;
 
     // {difficulty:'easy', duraation:{$gte:5}}
 
