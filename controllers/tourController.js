@@ -1,5 +1,37 @@
 const Tour = require('../models/tourModel');
+const APIFeatures = require('../utils/apiFeatures');
 
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summery,difficulty';
+  next();
+};
+
+exports.getAllTours = async (req, res) => {
+  try {
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const tours = await features.query;
+
+    res.status(200).json({
+      status: 'sucess',
+      results: tours.length,
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'faied',
+      message: err,
+    });
+  }
+};
 exports.getTour = async (req, res) => {
   try {
     const tours = await Tour.findById(req.params.id);
@@ -17,56 +49,9 @@ exports.getTour = async (req, res) => {
     });
   }
 };
-
-exports.getAllTours = async (req, res) => {
-  try {
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    const queryObj = { ...req.query };
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach((el) => delete queryObj[el]);
-    // eslint-disable-next-line no-console
-    console.log(req.query, queryObj);
-
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.parse(queryStr));
-
-    let query = Tour.find(JSON.parse(queryStr));
-
-    // const tours = await Tour.find({
-    //   difficulty: 'easy',
-    //   duration: 5,
-    // });
-
-    if (req.query.sort) {
-      query = query.sort(req.query.sort);
-    }
-
-    const tours = await query;
-
-    // {difficulty:'easy', duraation:{$gte:5}}
-
-    res.status(200).json({
-      status: 'sucess',
-      results: tours.length,
-      data: {
-        tours,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'faied',
-      message: err,
-    });
-  }
-};
-
 exports.createTour = async (req, res) => {
   try {
     const newTour = await Tour.create(req.body);
-
     res.status(201).json({
       status: 'sucsess',
       data: {
