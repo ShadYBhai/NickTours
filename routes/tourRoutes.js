@@ -7,6 +7,9 @@ const tourRouter = express.Router();
 //   console.log(`tour id id : ${val}`);
 //   next();
 // });
+tourRouter.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+
+tourRouter.route('/tour-stats').get(tourController.getTourStats);
 
 tourRouter
   .route('/top-5-cheap')
